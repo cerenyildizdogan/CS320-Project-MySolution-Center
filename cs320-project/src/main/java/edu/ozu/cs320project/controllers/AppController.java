@@ -71,4 +71,9 @@ public class AppController {
         return "redirect:/login";
     }
 
+    @GetMapping("/residentPage")
+    public String residentPage(ModelMap model){
+        return "residentPage";
+    }
+
 }
