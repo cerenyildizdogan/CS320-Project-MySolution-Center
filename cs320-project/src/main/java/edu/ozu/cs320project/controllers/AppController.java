@@ -76,4 +76,9 @@ public class AppController {
         return "residentPage";
     }
 
+    @GetMapping("/doPage")
+    public String doPage(ModelMap model){
+        return "doPage";
+    }
+
 }
