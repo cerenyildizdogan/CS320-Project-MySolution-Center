@@ -1,6 +1,5 @@
 package edu.ozu.cs320project.controllers;
 
-
 import edu.ozu.cs320project.Salter;
 import edu.ozu.cs320project.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,4 +102,29 @@ public class AppController {
         return "listResidents";
     }
     
+    @GetMapping("/addResident")
+    public String addResident(ModelMap model){
+        return "addResident";
+    }
+
+    @PostMapping("/addResident")
+    public String addResident(ModelMap model,@RequestParam String username,@RequestParam String userpassword,@RequestParam String email,@RequestParam String gsm,
+                              @RequestParam String roomnumber){
+
+        userpassword = Salter.salt(userpassword,"CS320Project");
+        model.put("username",username);
+        model.put("userpassword",userpassword);
+        model.put("email",email);
+        model.put("gsm",gsm);
+        model.put("roomnumber",roomnumber);
+
+        String query = "INSERT INTO Users (usertypeid, username, userpassword, email, gsm, roomNumber) " +
+                "VALUES (1,'"+username+"','"+userpassword+"','"+email+"','"+gsm+"','"+roomnumber+"')";
+
+        conn.update(query);
+
+        return "addResident";
+
+    }
+
 }
