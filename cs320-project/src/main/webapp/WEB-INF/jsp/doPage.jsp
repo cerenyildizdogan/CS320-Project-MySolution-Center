@@ -7,6 +7,7 @@
   <%
       String username = (String) session.getAttribute("username");
       String usertype = (String) session.getAttribute("usertypename");
+      //int userid = (int) session.getAttribute("userid");
   %>
   <p>You are logged in as : <%= username %> , <%= usertype %> </p>
   <a href="/listResidents">List Residents</a>
