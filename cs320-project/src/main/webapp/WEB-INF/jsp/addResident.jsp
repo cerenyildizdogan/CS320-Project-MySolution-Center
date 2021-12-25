@@ -4,7 +4,7 @@
     <title>Add Resident</title>
 </head>
 <body>
-<p>Enter the book's information:</p>
+<p>Enter the resident's information:</p>
 <%
     String email = (String) session.getAttribute("level");
 
