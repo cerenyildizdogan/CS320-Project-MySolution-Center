@@ -126,5 +126,23 @@ public class AppController {
         return "addResident";
 
     }
+    
+    @GetMapping("/removeResident")
+    public String removeResident(ModelMap model){
+        return "removeResident";
+    }
+
+    @PostMapping("/removeResident")
+    public String removeResident(ModelMap model, @RequestParam String email){
+        if(email == null){
+            model.put("errorMessage","Please enter valid email");
+            return "removeResident";
+        }
+
+        String query = "DELETE FROM Users WHERE email = '"+email+"'";
+        conn.update(query);
+
+        return "removeResident";
+    }
 
 }
