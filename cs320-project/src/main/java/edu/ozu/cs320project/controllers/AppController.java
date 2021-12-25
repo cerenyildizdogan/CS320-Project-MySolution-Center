@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import java.util.List;
+
 @Controller
 
-@SessionAttributes({"username","password","level","usertypename","id","email"})
+@SessionAttributes({"username","password","level","usertypename","id","residentData","email","userid"})
 public class AppController {
 
     @Autowired
@@ -23,33 +25,33 @@ public class AppController {
     JdbcTemplate conn;
 
     @GetMapping("/")
-    public String index(ModelMap model) {
+    public String index(ModelMap model){
         return "index";
     }
 
     @GetMapping("/login")
-    public String loginPage(ModelMap model) {
+    public String loginPage(ModelMap model){
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(ModelMap model, @RequestParam String username, @RequestParam String password) {
+    public String login(ModelMap model, @RequestParam String username, @RequestParam String password){
 
         password = Salter.salt(password, "CS320Project");
 
-        if (!service.validate(username, password)) {
-            model.put("errorMessage", "Invalid Credentials");
+        if(!service.validate(username,password)){
+            model.put("errorMessage","Invalid Credentials");
             return "login";
         }
         Integer usertypeid = service.getUserType(username, password);
-        String usertypename = service.getUserTypeName(username, password);
-        String name = service.getUsername(username, password);
+        String usertypename = service.getUserTypeName(username,password);
+        String name = service.getUsername(username,password);
         int userid = service.getUserID(username);
 
 
         model.put("id", usertypeid.toString());
-        model.put("usertypename", usertypename);
-        model.put("userid", userid);
+        model.put("usertypename",usertypename);
+        model.put("userid",userid);
         model.put("username", name);
 
         if (usertypeid == 1) {
@@ -58,15 +60,17 @@ public class AppController {
         if (usertypeid == 2) {
             return "redirect:/doPage";
         } else {
+
             return "login";
+
         }
 
     }
 
     @GetMapping("/logout")
-    public String logout(ModelMap model, WebRequest request, SessionStatus session) {
+    public String logout(ModelMap model, WebRequest request, SessionStatus session){
         session.setComplete();
-        request.removeAttribute("username", WebRequest.SCOPE_SESSION);
+        request.removeAttribute("username",WebRequest.SCOPE_SESSION);
 
         return "redirect:/login";
     }
@@ -81,4 +85,22 @@ public class AppController {
         return "doPage";
     }
 
+    @GetMapping("/listResidents")
+    public String listResidents(ModelMap model){
+
+        List<String[]> data = conn.query("select userid, email,usertypename,username,gsm, roomnumber, registirationdate\n" +
+                        "from users natural join usertypes\n" +
+                        "where users.usertypeid = usertypes.usertypeid and usertypeid = 1\n",
+                (row, index) -> {
+                    return new String[]{row.getString("userid"), row.getString("email"),
+                            row.getString("usertypename"), row.getString("username"),
+                            row.getString("gsm"), row.getString("roomnumber"),
+                            row.getString("registirationdate")};
+                });
+
+        model.addAttribute("residentData", data.toArray(new String[0][7]));
+
+        return "listResidents";
+    }
+    
 }
