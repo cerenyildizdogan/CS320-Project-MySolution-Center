@@ -277,6 +277,21 @@ public class AppController {
     @GetMapping("/myRequests/{userid}")
     public String myRequests(ModelMap model,@PathVariable("userid") int userid){
 
+        List<String[]> data = conn.query( "SELECT userid, username, email,roomnumber, servicename, requestExpl, requestedDate, requestStatus, requestCompletedDate\n" +
+                        "FROM Users U\n" +
+                        "NATURAL JOIN Requests R\n" +
+                        "NATURAL JOIN Services S\n" +
+                        "WHERE U.userid = R.userid and R.serviceid = S.serviceid and userid = "+userid+" ",
+                (row, index) -> {
+                    return new String[]{row.getString("userid"), row.getString("username"),
+                            row.getString("email"), row.getString("roomnumber"),
+                            row.getString("servicename"), row.getString("requestExpl"),
+                            row.getString("requestedDate"), row.getString("requestStatus"),
+                            row.getString("requestCompletedDate")};
+                });
+
+        model.addAttribute("myRequestData", data.toArray(new String[0][9]));
+
         return "myRequests";
     }
 
