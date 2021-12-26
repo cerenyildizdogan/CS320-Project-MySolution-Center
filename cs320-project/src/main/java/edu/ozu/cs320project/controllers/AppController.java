@@ -1,5 +1,6 @@
 package edu.ozu.cs320project.controllers;
 
+
 import edu.ozu.cs320project.Salter;
 import edu.ozu.cs320project.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,12 +186,31 @@ public class AppController {
         return "removeService";
     }
 
+        
     @GetMapping("listRequests")
     public String listRequests(ModelMap model){
 
+        List<String[]> data = conn.query( "SELECT requestid, username, email, servicename,  requestExpl, roomnumber, requestedDate, requestStatus, requestCompletedDate\n" +
+                        "FROM Requests R\n" +
+                        "NATURAL JOIN Users U\n" +
+                        "NATURAL JOIN Services S\n" +
+                        "WHERE R.serviceid = S.serviceid and U.userid = R.userid and usertypeid = 1\n"+
+                        "ORDER BY requestedDate ASC",
+                (row, index) -> {
+                    return new String[]{row.getString("requestid"), row.getString("username"),
+                            row.getString("email"), row.getString("servicename"),
+                            row.getString("requestExpl"), row.getString("roomnumber"),
+                            row.getString("requestedDate"), row.getString("requestStatus"),
+                            row.getString("requestCompletedDate")};
+                });
+
+        model.addAttribute("requestData", data.toArray(new String[0][9]));
+
+            
         return "listRequests";
     }
 
+        
     @GetMapping("/updateRequests")
     public String updateRequests(ModelMap model){
 
@@ -220,7 +240,7 @@ public class AppController {
 
     @GetMapping("/reportAnIssue/{userid}")
     public String reportAnIssue(ModelMap model){
-        
+
         return "reportAnIssue";
     }
 
