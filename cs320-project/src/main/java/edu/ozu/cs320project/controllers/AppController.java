@@ -13,8 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.List;
 
 @Controller
-
-@SessionAttributes({"username","password","level","usertypename","id","residentData","email","userid"})
+@SessionAttributes({"username","password","level","usertypename","id","residentData","email","serviceData","serviceName","userid"})
 public class AppController {
 
     @Autowired
@@ -101,7 +100,7 @@ public class AppController {
 
         return "listResidents";
     }
-    
+
     @GetMapping("/addResident")
     public String addResident(ModelMap model){
         return "addResident";
@@ -126,7 +125,7 @@ public class AppController {
         return "addResident";
 
     }
-    
+
     @GetMapping("/removeResident")
     public String removeResident(ModelMap model){
         return "removeResident";
@@ -143,6 +142,20 @@ public class AppController {
         conn.update(query);
 
         return "removeResident";
+    }
+
+    @GetMapping("/listServices")
+    public String listServices(ModelMap model){
+        List<String[]> data = conn.query("select serviceid, servicename,serviceExpl\n" +
+                        "from services",
+                (row, index) -> {
+                    return new String[]{row.getString("serviceid"), row.getString("servicename"),
+                            row.getString("serviceExpl")};
+                });
+
+        model.addAttribute("serviceData", data.toArray(new String[0][3]));
+
+        return "listServices";
     }
 
 }
