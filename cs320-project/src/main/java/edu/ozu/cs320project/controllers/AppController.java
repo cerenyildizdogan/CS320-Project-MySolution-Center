@@ -253,12 +253,23 @@ public class AppController {
 
     @GetMapping("/reportAnIssue/{userid}")
     public String reportAnIssue(ModelMap model){
-
         return "reportAnIssue";
     }
 
     @PostMapping("/reportAnIssue/{userid}")
-    public String reportAnIssue(ModelMap model,@PathVariable("userid") int userid){
+    public String reportAnIssue(ModelMap model,@PathVariable("userid") int userid,@RequestParam int serviceid, @RequestParam String requestExpl){
+
+        if(serviceid == 0){
+            model.put("errorMessage","Please enter valid service id");
+            return "reportAnIssue";
+        }
+
+        model.put("requestExpl",requestExpl);
+
+        String query = "INSERT INTO Requests (userid, serviceid, requestExpl,requestCompletedDate)\n" +
+                "VALUES ("+userid+","+serviceid+",'"+requestExpl+"',NULL ) ";
+
+        conn.update(query);
 
         return "reportAnIssue";
     }
