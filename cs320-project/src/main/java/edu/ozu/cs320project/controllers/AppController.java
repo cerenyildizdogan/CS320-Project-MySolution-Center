@@ -181,7 +181,7 @@ public class AppController {
     public String removeService(ModelMap model){
         return "removeService";
     }
-    
+
     @PostMapping("/removeService")
     public String removeService(ModelMap model, @RequestParam String servicename){
         if(servicename == null){
@@ -193,6 +193,21 @@ public class AppController {
         conn.update(query);
 
         return "removeService";
+    }
+
+    @GetMapping("/listServicesForResidents")
+    public String listServices2(ModelMap model){
+
+        List<String[]> data = conn.query("select serviceid, servicename,serviceExpl\n" +
+                        "from services",
+                (row, index) -> {
+                    return new String[]{row.getString("serviceid"), row.getString("servicename"),
+                            row.getString("serviceExpl")};
+                });
+
+        model.addAttribute("serviceData", data.toArray(new String[0][3]));
+
+        return "listServicesForResidents";
     }
 
 }
