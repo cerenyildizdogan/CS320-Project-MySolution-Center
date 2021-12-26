@@ -186,7 +186,7 @@ public class AppController {
         return "removeService";
     }
 
-        
+
     @GetMapping("listRequests")
     public String listRequests(ModelMap model){
 
@@ -206,11 +206,11 @@ public class AppController {
 
         model.addAttribute("requestData", data.toArray(new String[0][9]));
 
-            
+
         return "listRequests";
     }
 
-        
+
     @GetMapping("/updateRequests")
     public String updateRequests(ModelMap model){
 
@@ -219,6 +219,19 @@ public class AppController {
 
     @PostMapping("/updateRequests")
     public String updateRequests(ModelMap model, @RequestParam int requestid){
+
+        if(requestid == 0){
+            model.put("errorMessage","Please enter valid request id");
+            return "requestid";
+        }
+
+        model.put("requestid",requestid);
+
+        String query = "UPDATE Requests SET requestStatus = 1 WHERE requestid = '"+requestid+"' ";
+        String query2 = "UPDATE Requests SET requestCompletedDate = CURRENT_TIMESTAMP WHERE requestid = '"+requestid+"' ";
+
+        conn.update(query);
+        conn.update(query2);
 
         return "updateRequests";
     }
