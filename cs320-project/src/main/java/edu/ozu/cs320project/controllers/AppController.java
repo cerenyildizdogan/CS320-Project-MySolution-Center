@@ -177,4 +177,22 @@ public class AppController {
         return "addService";
     }
 
+    @GetMapping("/removeService")
+    public String removeService(ModelMap model){
+        return "removeService";
+    }
+    
+    @PostMapping("/removeService")
+    public String removeService(ModelMap model, @RequestParam String servicename){
+        if(servicename == null){
+            model.put("errorMessage","Please enter valid service name");
+            return "removeService";
+        }
+
+        String query = "DELETE FROM Services WHERE servicename = '"+servicename+"'";
+        conn.update(query);
+
+        return "removeService";
+    }
+
 }
