@@ -158,4 +158,23 @@ public class AppController {
         return "listServices";
     }
 
+    @GetMapping("/addService")
+    public String addService(ModelMap model){
+        return "addService";
+    }
+
+    @PostMapping("/addService")
+    public String addService(ModelMap model,@RequestParam String serviceName, @RequestParam String serviceExpl){
+
+        model.put("serviceName",serviceName);
+        model.put("serviceExpl",serviceExpl);
+
+
+        String query = "INSERT INTO Services (servicename, serviceExpl) " +
+                "VALUES ('"+serviceName+"','"+serviceExpl+"')";
+
+        conn.update(query);
+        return "addService";
+    }
+
 }
