@@ -6,11 +6,30 @@
 </head>
 <body>
 <p>Enter the Service's name you want to remove</p>
+<%
+    String name = (String) session.getAttribute("level");
 
-<form>
+    if(name == null){
+%>
+<p style="color: red" >${errorMessage}</p>
+<form method="post">
+    <div>
+        Service Name = <input type="text" name="servicename" required>
+    </div>
+    <div>
+        <input type="submit" value="remove" />
+    </div>
+    <a href="/listServices" >Back to previous page</a>
 </form>
+<%
+}else{
+%>
 
 <a href="/listServices" >Back to previous page</a>
+
+<%
+    }
+%>
 
 </body>
 </html>
