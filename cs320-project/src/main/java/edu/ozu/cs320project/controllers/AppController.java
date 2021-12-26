@@ -13,7 +13,9 @@ import org.springframework.web.context.request.WebRequest;
 import java.util.List;
 
 @Controller
-@SessionAttributes({"username","password","level","usertypename","id","residentData","email","serviceData","serviceName","userid"})
+
+@SessionAttributes({"username","password","level","usertypename","id","residentData","email","serviceData","serviceName",
+        "requestData","requestid","userid","requestExpl","myRequestData"})
 public class AppController {
 
     @Autowired
@@ -58,11 +60,8 @@ public class AppController {
         if (usertypeid == 2) {
             return "redirect:/doPage";
         } else {
-
             return "login";
-
         }
-
     }
 
     @GetMapping("/logout")
@@ -77,7 +76,6 @@ public class AppController {
     public String residentPage(ModelMap model){
         return "residentPage";
     }
-
     @GetMapping("/doPage")
     public String doPage(ModelMap model){
         return "doPage";
@@ -100,12 +98,10 @@ public class AppController {
 
         return "listResidents";
     }
-
     @GetMapping("/addResident")
     public String addResident(ModelMap model){
         return "addResident";
     }
-
     @PostMapping("/addResident")
     public String addResident(ModelMap model,@RequestParam String username,@RequestParam String userpassword,@RequestParam String email,@RequestParam String gsm,
                               @RequestParam String roomnumber){
@@ -123,14 +119,12 @@ public class AppController {
         conn.update(query);
 
         return "addResident";
-
     }
 
     @GetMapping("/removeResident")
     public String removeResident(ModelMap model){
         return "removeResident";
     }
-
     @PostMapping("/removeResident")
     public String removeResident(ModelMap model, @RequestParam String email){
         if(email == null){
@@ -157,12 +151,10 @@ public class AppController {
 
         return "listServices";
     }
-
     @GetMapping("/addService")
     public String addService(ModelMap model){
         return "addService";
     }
-
     @PostMapping("/addService")
     public String addService(ModelMap model,@RequestParam String serviceName, @RequestParam String serviceExpl){
 
@@ -176,12 +168,10 @@ public class AppController {
         conn.update(query);
         return "addService";
     }
-
     @GetMapping("/removeService")
     public String removeService(ModelMap model){
         return "removeService";
     }
-
     @PostMapping("/removeService")
     public String removeService(ModelMap model, @RequestParam String servicename){
         if(servicename == null){
@@ -193,6 +183,24 @@ public class AppController {
         conn.update(query);
 
         return "removeService";
+    }
+
+    @GetMapping("listRequests")
+    public String listRequests(ModelMap model){
+
+        return "listRequests";
+    }
+
+    @GetMapping("/updateRequests")
+    public String updateRequests(ModelMap model){
+
+        return "updateRequests";
+    }
+
+    @PostMapping("/updateRequests")
+    public String updateRequests(ModelMap model, @RequestParam int requestid){
+
+        return "updateRequests";
     }
 
     @GetMapping("/listServicesForResidents")
@@ -208,6 +216,24 @@ public class AppController {
         model.addAttribute("serviceData", data.toArray(new String[0][3]));
 
         return "listServicesForResidents";
+    }
+
+    @GetMapping("/reportAnIssue/{userid}")
+    public String reportAnIssue(ModelMap model){
+        
+        return "reportAnIssue";
+    }
+
+    @PostMapping("/reportAnIssue/{userid}")
+    public String reportAnIssue(ModelMap model,@PathVariable("userid") int userid){
+
+        return "reportAnIssue";
+    }
+
+    @GetMapping("/myRequests/{userid}")
+    public String myRequests(ModelMap model,@PathVariable("userid") int userid){
+
+        return "myRequests";
     }
 
 }
