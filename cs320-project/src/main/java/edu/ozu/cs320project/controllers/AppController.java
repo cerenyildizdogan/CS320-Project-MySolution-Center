@@ -1,6 +1,5 @@
 package edu.ozu.cs320project.controllers;
 
-
 import edu.ozu.cs320project.Salter;
 import edu.ozu.cs320project.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
