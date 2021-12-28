@@ -214,7 +214,6 @@ public class AppController {
         return "listRequests";
     }
 
-
     @GetMapping("/updateRequests")
     public String updateRequestsPage(ModelMap model){
 

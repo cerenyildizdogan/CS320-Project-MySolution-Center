@@ -1,23 +1,21 @@
 package edu.ozu.cs320project.services;
 
+import edu.ozu.cs320project.model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class LoginServiceTest {
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
+    @Autowired
+    LoginService loginService;
 
     @Test
-    void validate() {
+    void serviceTest() {
+        User user = new User();
     }
 
     @Test
