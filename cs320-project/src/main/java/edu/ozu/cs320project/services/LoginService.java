@@ -1,6 +1,6 @@
 package edu.ozu.cs320project.services;
 
-import edu.ozu.cs320project.User;
+import edu.ozu.cs320project.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

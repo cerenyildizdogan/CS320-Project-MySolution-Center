@@ -1,4 +1,4 @@
-package edu.ozu.cs320project;
+package edu.ozu.cs320project.model;
 
 public class User {
     int usertypeid;
