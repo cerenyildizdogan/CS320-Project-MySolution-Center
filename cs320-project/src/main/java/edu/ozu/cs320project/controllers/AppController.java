@@ -77,13 +77,14 @@ public class AppController {
     public String residentPage(ModelMap model){
         return "residentPage";
     }
+
     @GetMapping("/doPage")
     public String doPage(ModelMap model){
         return "doPage";
     }
 
     @GetMapping("/listResidents")
-    public String listResidents(ModelMap model){
+    public String listResidentsPage(ModelMap model){
 
         List<String[]> data = conn.query("select userid, email,usertypename,username,gsm, roomnumber, registirationdate\n" +
                         "from users natural join usertypes\n" +
@@ -100,9 +101,10 @@ public class AppController {
         return "listResidents";
     }
     @GetMapping("/addResident")
-    public String addResident(ModelMap model){
+    public String addResidentPage(ModelMap model){
         return "addResident";
     }
+
     @PostMapping("/addResident")
     public String addResident(ModelMap model,@RequestParam String username,@RequestParam String userpassword,@RequestParam String email,@RequestParam String gsm,
                               @RequestParam String roomnumber){
@@ -123,9 +125,10 @@ public class AppController {
     }
 
     @GetMapping("/removeResident")
-    public String removeResident(ModelMap model){
+    public String removeResidentPage(ModelMap model){
         return "removeResident";
     }
+
     @PostMapping("/removeResident")
     public String removeResident(ModelMap model, @RequestParam String email){
         if(email == null){
@@ -140,7 +143,7 @@ public class AppController {
     }
 
     @GetMapping("/listServices")
-    public String listServices(ModelMap model){
+    public String listServicesPage(ModelMap model){
         List<String[]> data = conn.query("select serviceid, servicename,serviceExpl\n" +
                         "from services",
                 (row, index) -> {
@@ -153,9 +156,10 @@ public class AppController {
         return "listServices";
     }
     @GetMapping("/addService")
-    public String addService(ModelMap model){
+    public String addServicePage(ModelMap model){
         return "addService";
     }
+
     @PostMapping("/addService")
     public String addService(ModelMap model,@RequestParam String serviceName, @RequestParam String serviceExpl){
 
@@ -170,9 +174,10 @@ public class AppController {
         return "addService";
     }
     @GetMapping("/removeService")
-    public String removeService(ModelMap model){
+    public String removeServicePage(ModelMap model){
         return "removeService";
     }
+
     @PostMapping("/removeService")
     public String removeService(ModelMap model, @RequestParam String servicename){
         if(servicename == null){
@@ -188,7 +193,7 @@ public class AppController {
 
 
     @GetMapping("listRequests")
-    public String listRequests(ModelMap model){
+    public String listRequestsPage(ModelMap model){
 
         List<String[]> data = conn.query( "SELECT requestid, username, email, servicename,  requestExpl, roomnumber, requestedDate, requestStatus, requestCompletedDate\n" +
                         "FROM Requests R\n" +
@@ -212,7 +217,7 @@ public class AppController {
 
 
     @GetMapping("/updateRequests")
-    public String updateRequests(ModelMap model){
+    public String updateRequestsPage(ModelMap model){
 
         return "updateRequests";
     }
@@ -237,7 +242,7 @@ public class AppController {
     }
 
     @GetMapping("/listServicesForResidents")
-    public String listServices2(ModelMap model){
+    public String listServices2Page(ModelMap model){
 
         List<String[]> data = conn.query("select serviceid, servicename,serviceExpl\n" +
                         "from services",
@@ -252,7 +257,7 @@ public class AppController {
     }
 
     @GetMapping("/reportAnIssue/{userid}")
-    public String reportAnIssue(ModelMap model){
+    public String reportAnIssuePage(ModelMap model){
         return "reportAnIssue";
     }
 
@@ -275,7 +280,7 @@ public class AppController {
     }
 
     @GetMapping("/myRequests/{userid}")
-    public String myRequests(ModelMap model,@PathVariable("userid") int userid){
+    public String myRequestsPage(ModelMap model,@PathVariable("userid") int userid){
 
         List<String[]> data = conn.query( "SELECT userid, username, email,roomnumber, servicename, requestExpl, requestedDate, requestStatus, requestCompletedDate\n" +
                         "FROM Users U\n" +
